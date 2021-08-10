@@ -1,0 +1,7 @@
+quarkus:
+  reproducer:
+    client:
+      something: defaultClient
+    "test":
+      client:
+        something: testClient
