@@ -9,7 +9,7 @@ public class ABuildTimeConfiguration
     /**
      * make tooling super happy
      */
-    @ConfigItem(name = ConfigItem.PARENT, defaultValue = "true")
+    @ConfigItem(name = "enabled", defaultValue = "true")
     public boolean enabled = true;
 
 }
