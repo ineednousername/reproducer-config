@@ -16,10 +16,12 @@
 */
 package org.acme.reproducer.config.extension.it;
 
+import org.acme.bean.Greeting;
 import org.acme.configuration.AsBuildTimeConfiguration;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 
@@ -30,8 +32,16 @@ public class ReproducerConfigExtensionResource {
     @Inject
     AsBuildTimeConfiguration configuration;
 
+    @Inject
+    @Named("default")
+    Greeting greetings;
+
+    @Inject
+    @Named("test")
+    Greeting testGreetings;
+
     @GET
     public String hello() {
-        return "Hello reproducer-config-extension "+configuration.getNamedConfigurations();
+        return "Hello reproducer-config-extension " + configuration.getNamedConfigurations() + " default: " + greetings.getMessage() +"; test: "+testGreetings.getMessage();
     }
 }
