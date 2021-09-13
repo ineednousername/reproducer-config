@@ -16,6 +16,6 @@ public class ReproducerConfigExtensionResourceTest {
                 .when().get("/reproducer-config-extension")
                 .then()
                 .statusCode(200)
-                .body(is("Hello reproducer-config-extension"));
+                .body(is("Hello reproducer-config-extension [test, default] default: \"defaultClient\"; test: \"testClient\""));
     }
 }
