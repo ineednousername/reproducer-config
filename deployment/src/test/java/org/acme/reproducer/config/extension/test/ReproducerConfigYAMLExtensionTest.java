@@ -2,7 +2,6 @@ package org.acme.reproducer.config.extension.test;
 
 import io.quarkus.test.QuarkusUnitTest;
 import org.acme.configuration.AsBuildTimeConfiguration;
-import org.acme.configuration.AsRuntimeConfiguration;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.FileAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
@@ -27,17 +26,14 @@ public class ReproducerConfigYAMLExtensionTest {
     @Inject
     AsBuildTimeConfiguration configuration;
 
-    @Inject
-    AsRuntimeConfiguration runtimeConfiguration;
-
     @Test
     public void configWasLoadedCorrectly() {
         // Write your unit tests here - see the testing extension guide https://quarkus.io/guides/writing-extensions#testing-extensions for more information
 
         assertThat(configuration.getNamedConfigurations(), containsInAnyOrder("test", "default"));
-        final String aDefault = runtimeConfiguration.getSomething("default");
+        final String aDefault = configuration.client.something;
         assertThat(aDefault, is("defaultClient"));
-        final String test = runtimeConfiguration.getSomething("test");
+        final String test = configuration.namedClients.get("test").client.something;
         assertThat(test, is(equalTo("testClient")));
     }
 }

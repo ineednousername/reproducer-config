@@ -9,7 +9,6 @@ import io.quarkus.deployment.builditem.FeatureBuildItem;
 import org.acme.MyRecorder;
 import org.acme.bean.Greeting;
 import org.acme.configuration.AsBuildTimeConfiguration;
-import org.acme.configuration.AsRuntimeConfiguration;
 import org.jboss.jandex.DotName;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -25,7 +24,7 @@ class ReproducerConfigExtensionProcessor {
 
     @BuildStep
     @Record(ExecutionTime.RUNTIME_INIT)
-    void createClients(AsBuildTimeConfiguration build, AsRuntimeConfiguration runtime, MyRecorder recorder, BuildProducer<SyntheticBeanBuildItem> beans){
+    void createClients(AsBuildTimeConfiguration build, MyRecorder recorder, BuildProducer<SyntheticBeanBuildItem> beans) {
         build.getNamedConfigurations().forEach(clientName -> {
             SyntheticBeanBuildItem.ExtendedBeanConfigurator configurator = SyntheticBeanBuildItem
                     .configure(Greeting.class)
@@ -34,7 +33,7 @@ class ReproducerConfigExtensionProcessor {
                     .addType(DotName.createSimple(Greeting.class.getName()))
                     .scope(ApplicationScoped.class)
                     .setRuntimeInit()
-                    .supplier(recorder.createGreeting(clientName, runtime));
+                    .supplier(recorder.createGreeting(clientName, "default".equals(clientName)? build.client.something: build.namedClients.get(clientName).client.something));
             beans.produce(configurator.done());
         });
 

@@ -1,7 +1,5 @@
 quarkus:
   reproducer:
-    client:
-      something: defaultClient
+    client: defaultClient
     "test":
-      client:
-        something: testClient
+      client: testClient
